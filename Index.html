@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+  <title>d3练习</title>
+  <meta charset="utf-8"/>
+  <style>
+    .axis line,
+    .axis path{
+      fill: none;
+      stroke: black;
+      shape-rendering: crispEdges;
+    }
+    .axis text {
+      font-family: sans-serif;
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+
+<script src="d3.min.js"></script>
+<script>
+  var dataset = [2.5, 6, 10, 1.6, 7, 3];
+
+  var svg = d3.select("body").append("svg").attr("width",300).attr("height",300);
+
+  var rectHeight = 25;
+
+  var linear = d3.scale.linear()
+    .domain([0,d3.max(dataset)])
+    .range([0,200]);
+
+  svg.selectAll("rect")
+    .data(dataset)
+    .enter()
+    .append("rect")
+    .attr("x",20)
+    .attr("y", function (d,i) {
+      return i*rectHeight;
+    })
+    .attr("width", function (d,i) {
+      return linear(d);
+    })
+    .attr("height",23)
+    .attr("fill","gray");
+
+  var axis = d3.svg.axis()
+    .scale(linear)
+    .ticks(5)
+    .orient("bottom");
+
+  svg.append("g")
+    .attr("class","axis")
+    .attr("transform","translate(20,155)")
+    .call(axis);
+
+</script>
+</body>
+</html>
